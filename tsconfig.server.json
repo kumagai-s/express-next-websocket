@@ -1,0 +1,10 @@
+// for Next custom-server
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "outDir": "./dist",
+        "noEmit": false,
+    },
+    "include": ["server.ts"]
+}
