@@ -18,6 +18,6 @@ export function useEntry(id: string) {
   return useSWR(`/api/get-entry?id=${id}`, fetcher)
 }
 
-export function useRoom(id: string) {
-  return useSWR(`/api/rooms/${id}`, fetcher)
+export function useRoom(roomId: string) {
+  return useSWR(`/api/rooms/get-room?roomId=${roomId}`, fetcher)
 }

@@ -5,8 +5,14 @@
       "@/components/*": [
         "components/*"
       ],
+      "@/images/*": [
+        "images/*"
+      ],
       "@/lib/*": [
         "lib/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
       ]
     },
     "target": "es5",

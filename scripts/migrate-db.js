@@ -42,11 +42,11 @@ async function migrate() {
         DEFAULT CURRENT_TIMESTAMP 
         ON UPDATE CURRENT_TIMESTAMP
     );
+    `)
+    await query(`
     CREATE TABLE IF NOT EXISTS rooms (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      room_code VARCHAR(14),
-      canvas_data BINARY,
-      background_image_path VARCHAR(255),
+      room_id CHAR(43) PRIMARY KEY,
+      canvas_image BLOB NULL,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 

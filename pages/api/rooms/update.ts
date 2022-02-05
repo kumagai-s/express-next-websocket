@@ -1,21 +1,23 @@
 import { NextApiHandler } from 'next'
-import { query } from '../../lib/db'
+import { query } from '@/lib/db'
 
 const handler: NextApiHandler = async (req, res) => {
-  const { title, content } = req.body
+  const { roomId, canvasImage } = req.body
   try {
-    if (!title || !content) {
+    if (!canvasImage) {
       return res
         .status(400)
-        .json({ message: '`title` and `content` are both required' })
+        .json({ message: '`canvasImage` is required' })
     }
+    const base64Decode = Buffer.from(canvasImage, 'base64')
 
     const results = await query(
       `
-      INSERT INTO entries (title, content)
-      VALUES (?, ?)
+      UPDATE rooms
+      SET canvas_image = ?
+      WHERE room_id = ?
       `,
-      [title, content]
+      [base64Decode, roomId]
     )
 
     return res.json(results)

@@ -1,24 +1,20 @@
 import { NextApiHandler } from 'next'
-import { query } from '../../../lib/db'
+import { nanoid } from 'nanoid'
+import { query } from '@/lib/db'
 
 const handler: NextApiHandler = async (req, res) => {
-  const { room_code, canvas_data, background_image_path } = req.body
   try {
-    if (!room_code) {
-      return res
-        .status(400)
-        .json({ message: '`room_code` are both required' })
-    }
+    let roomId = nanoid(43);
 
     const results = await query(
       `
-      INSERT INTO rooms (room_code, canvas_data, background_image_path)
-      VALUES (?, ?, ?)
+      INSERT INTO rooms (room_id)
+      VALUES (?)
       `,
-      [room_code, canvas_data, background_image_path]
+      [roomId]
     )
-
-    return res.json(results)
+    
+    return res.json({ roomId: roomId })
   } catch (e) {
     res.status(500).json({ message: e.message })
   }

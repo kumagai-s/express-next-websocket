@@ -1,16 +1,28 @@
-import Nav from '@/components/nav'
 import Container from '@/components/container'
-import Entries from '@/components/entries'
-
-import { useEntries } from '@/lib/swr-hooks'
+import Router from 'next/router'
 
 export default function IndexPage() {
-  const { entries, isLoading } = useEntries()
+
+  async function clickHandler(e) {
+    try {
+      const res = await fetch('/api/rooms/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      Router.push('/rooms/' + json.roomId)
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
 
   return (
     <div>
       <Container>
-        <Entries entries={entries} />
+        <div onClick={clickHandler}>ルーム作成</div>
       </Container>
     </div>
   )
