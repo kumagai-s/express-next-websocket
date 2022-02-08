@@ -171,13 +171,13 @@ export default function IndexPage() {
   function handleClickCopyLinkButton() {
     let url = location.href
     navigator.clipboard.writeText(url)
-    let notice = document.getElementById('notice')
-    notice.animate([{opacity: '0'}, {opacity: '1'}], 500)
-    notice.style.opacity = 1
-    setTimeout(() => {
-      notice.animate([{opacity: '1'}, {opacity: '0'}], 500)
-      notice.style.opacity = 0
-    }, 3000)
+    // let notice = document.getElementById('notice')
+    // notice.animate([{opacity: '0'}, {opacity: '1'}], 500)
+    // notice.style.opacity = 1
+    // setTimeout(() => {
+    //   notice.animate([{opacity: '1'}, {opacity: '0'}], 500)
+    //   notice.style.opacity = 0
+    // }, 3000)
   }
 
   /**
@@ -215,11 +215,11 @@ export default function IndexPage() {
     <>
       <div className="overflow-hidden max-w-[990px] mx-auto">
         <div className="h-[100vh] flex items-center">
-          <div ref={_canvasParent} className="w-[100%] border-solid border-[1px] aspect-video" style={{backgroundImage: 'url(/images/13f2b17839783ae123223d9fdc39f236.png); background-size: 100%;'}}>
+          <div ref={_canvasParent} className="w-[100%] border-solid border-[1px] aspect-video bg-unait-map bg-cover">
             <canvas ref={_canvas} />
           </div>
         </div>
-        <div className="fixed border-solid border-[1px] rounded-[50rem] bg-white w-auto top-[50%] left-[12px]" style={{transform: 'translate(0, -50%);'}}>
+        <div className="fixed border-solid border-[1px] rounded-[50rem] bg-white w-auto top-[50%] left-[12px] -translate-y-1/2">
           <div className="flex items-center justify-between flex-col">
             <div id="draw" className="tool-bar-menu-button m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" style={{ color: '#fff', backgroundColor: '#4a5568' }} onClick={changeToolType}>
               <FontAwesomeIcon icon={faPen} size="lg" fixedWidth />
