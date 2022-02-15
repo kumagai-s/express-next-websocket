@@ -1,4 +1,3 @@
-import Container from '@/components/container'
 import Footer from '@/components/footer'
 import Router from 'next/router'
 
