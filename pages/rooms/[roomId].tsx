@@ -215,7 +215,7 @@ export default function IndexPage() {
     <>
       <div className="h-full max-w-[990px] mx-auto">
         <div className="h-full flex items-center">
-          <div ref={_canvasParent} className="w-full border-solid border-[1px] aspect-video bg-unait-map bg-cover">
+          <div ref={_canvasParent} className="w-full border-solid border-[1px] bg-unait-map bg-cover aspect-[16/9]">
             <canvas ref={_canvas} />
           </div>
         </div>
