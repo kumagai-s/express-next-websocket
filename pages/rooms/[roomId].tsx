@@ -213,13 +213,14 @@ export default function IndexPage() {
 
   return (
     <>
-      <div className="overflow-hidden max-w-[990px] mx-auto">
-        <div className="h-[100vh] flex items-center">
-          <div ref={_canvasParent} className="w-[100%] border-solid border-[1px] aspect-video bg-unait-map bg-cover">
+      <div className="h-full max-w-[990px] mx-auto">
+        <div className="h-full flex items-center">
+          <div ref={_canvasParent} className="w-full border-solid border-[1px] aspect-video bg-unait-map bg-cover">
             <canvas ref={_canvas} />
           </div>
         </div>
-        <div className="fixed border-solid border-[1px] rounded-[50rem] bg-white w-auto top-[50%] left-[12px] -translate-y-1/2">
+      </div>
+      <div className="fixed border-solid border-[1px] rounded-[50rem] bg-white w-auto top-[50%] left-[12px] -translate-y-1/2">
           <div className="flex items-center justify-between flex-col">
             <div id="draw" className="tool-bar-menu-button bg-gray-700 text-white m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" onClick={changeToolType}>
               <FontAwesomeIcon icon={faPen} size="lg" fixedWidth />
@@ -233,7 +234,6 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-      </div>
     </>
   )
 }
