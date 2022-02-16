@@ -149,11 +149,11 @@ export default function IndexPage() {
     let target = e.currentTarget,
         toolbarMenuButton = Array.from(document.getElementsByClassName("tool-bar-menu-button"))
     toolbarMenuButton.forEach(function(element) {
-      element.style.backgroundColor = null
-      element.style.color = '#2d3748'
+      element.classList.remove('text-white', 'bg-gray-700')
+      element.classList.add('text-gray-800', 'hover:bg-gray-100')
     });
-    target.style.backgroundColor = '#4a5568'
-    target.style.color = '#fff'
+    target.classList.remove('text-gray-800', 'hover:bg-gray-100')
+    target.classList.add('text-white', 'bg-gray-700')
     _toolType.current = target.id
   }
 
@@ -221,14 +221,14 @@ export default function IndexPage() {
         </div>
         <div className="fixed border-solid border-[1px] rounded-[50rem] bg-white w-auto top-[50%] left-[12px] -translate-y-1/2">
           <div className="flex items-center justify-between flex-col">
-            <div id="draw" className="tool-bar-menu-button m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" style={{ color: '#fff', backgroundColor: '#4a5568' }} onClick={changeToolType}>
+            <div id="draw" className="tool-bar-menu-button bg-gray-700 text-white m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" onClick={changeToolType}>
               <FontAwesomeIcon icon={faPen} size="lg" fixedWidth />
             </div>
-            <div id="eraser" className="tool-bar-menu-button relative m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" style={{ color: '#2d3748' }} onClick={handleClickEraserButton}>
+            <div id="eraser" className="tool-bar-menu-button relative text-gray-800 m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" onClick={handleClickEraserButton}>
               <FontAwesomeIcon icon={faEraser} size="lg" fixedWidth />
               <span className="absolute after:content-['▸']" />
             </div>
-            <div className="tool-bar-menu-button m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" style={{ color: '#2d3748' }} onClick={handleClickCopyLinkButton}>
+            <div className="tool-bar-menu-button text-gray-800 m-1 p-3 rounded-[50rem] hover:cursor-pointer hover:bg-gray-100" onClick={handleClickCopyLinkButton}>
               <FontAwesomeIcon icon={faLink} size="lg" fixedWidth />
             </div>
           </div>
