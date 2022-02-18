@@ -18,8 +18,33 @@ export default function IndexPage() {
   const _toolType = useRef('draw')
 
   useEffect(() => {
-    if (!router.isReady) return
+    if (!roomId) return
 
+    /**
+     * Socket.io
+     */
+    _socket.emit("join", roomId)
+
+    _socket.on('drawClient', function(data) {
+      let offset =  _canvas.current.width / data.originWidth
+      data.pointData.forEach(function ([fx, fy, tx, ty], i) {
+        setTimeout(function () {
+          if (data.type === 'draw') {
+            canvas.draw(fx, fy, tx, ty, offset)
+          } else if (data.type === 'eraser') {
+            canvas.erase(fx, fy, tx, ty, offset)
+          }
+        }, i * 10);
+      })
+    })
+  
+    _socket.on('clearClient', function() {
+      canvas.clear()
+    })
+
+    /**
+     * Canvas
+     */
     _canvas.current.width = _canvasParent.current.clientWidth
     _canvas.current.height = _canvasParent.current.clientHeight
 
@@ -39,7 +64,7 @@ export default function IndexPage() {
       _canvas.current.removeEventListener(mouseup, handleMouseUp)
       _canvas.current.removeEventListener('mouseleave', () => { isDragging = false })
     }
-  }, [router.isReady])
+  }, [roomId])
 
   /**
    * Event functions 
@@ -49,25 +74,25 @@ export default function IndexPage() {
       fromX,
       fromY
   
-  function scrollX() { return document.documentElement.scrollLeft || document.body.scrollLeft; }
-  function scrollY() { return document.documentElement.scrollTop || document.body.scrollTop; }
-  function handleMouseDown(e) {
+  const scrollX = () => { return document.documentElement.scrollLeft || document.body.scrollLeft; }
+  const scrollY = () => { return document.documentElement.scrollTop || document.body.scrollTop; }
+  const handleMouseDown = e => {
     isDragging = true;
 
     if (e.type === 'touchstart') {
-      fromX = e.touches[0].clientX - _canvas.current.getBoundingClientRect().left + scrollX();
-      fromY = e.touches[0].clientY - _canvas.current.getBoundingClientRect().top + scrollY();
+      fromX = e.touches[0].clientX - _canvas.current.getBoundingClientRect().left + scrollX()
+      fromY = e.touches[0].clientY - _canvas.current.getBoundingClientRect().top + scrollY()
     } else {
-      fromX = e.offsetX;
-      fromY = e.offsetY;
+      fromX = e.offsetX
+      fromY = e.offsetY
     }
   }
 
-  function handleMouseMove(e) {
+  const handleMouseMove = e => {
     if (!isDragging) return false;
 
     let toX,
-        toY;
+        toY
     if (e.type === 'touchmove') {
       toX = e.touches[0].clientX - _canvas.current.getBoundingClientRect().left + scrollX();
       toY = e.touches[0].clientY - _canvas.current.getBoundingClientRect().top + scrollY();
@@ -85,7 +110,7 @@ export default function IndexPage() {
     fromY = toY;
   }
 
-  function handleMouseUp(e) {
+  const handleMouseUp = e => {
     if (!isDragging) return false;
     isDragging = false;
 
@@ -145,7 +170,7 @@ export default function IndexPage() {
    * Toolbar function
    * @param e 
    */
-  function changeToolType(e) {
+  const changeToolType = e => {
     let target = e.currentTarget,
         toolbarMenuButton = Array.from(document.getElementsByClassName("tool-bar-menu-button"))
     toolbarMenuButton.forEach(function(element) {
@@ -157,7 +182,7 @@ export default function IndexPage() {
     _toolType.current = target.id
   }
 
-  function handleClickEraserButton(e) {
+  const handleClickEraserButton = e => {
     if (_toolType.current === 'eraser') {
       if (window.confirm('クリアしてもよろしいですか？')) { 
         canvas.clear()
@@ -168,7 +193,7 @@ export default function IndexPage() {
     changeToolType(e)
   }
 
-  function handleClickCopyLinkButton() {
+  const handleClickCopyLinkButton = () => {
     let url = location.href
     navigator.clipboard.writeText(url)
     // let notice = document.getElementById('notice')
@@ -179,28 +204,6 @@ export default function IndexPage() {
     //   notice.style.opacity = 0
     // }, 3000)
   }
-
-  /**
-   * Scoket functions
-   */
-  _socket.emit("join", roomId)
-
-  _socket.on('drawClient', function(data) {
-    let offset =  _canvas.current.width / data.originWidth
-    data.pointData.forEach(function ([fx, fy, tx, ty], i) {
-      setTimeout(function () {
-        if (data.type === 'draw') {
-          canvas.draw(fx, fy, tx, ty, offset)
-        } else if (data.type === 'eraser') {
-          canvas.erase(fx, fy, tx, ty, offset)
-        }
-      }, i * 10);
-    })
-  })
-
-  _socket.on('clearClient', function() {
-    canvas.clear()
-  })
 
   if (data && data.canvas_image) {
     let base64 = 'data:image/png;base64,' + Buffer.from(data.canvas_image).toString("base64")
